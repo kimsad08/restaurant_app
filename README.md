@@ -1,331 +1,332 @@
 RestoSys — Restaurant App
 
-ระบบจัดการร้านอาหารแบบ Web Application พัฒนาด้วย PHP และ MySQL ทำงานบน Docker รองรับการใช้งานหลายบทบาท (Admin, Manager, User) พร้อมฟังก์ชันจัดการเมนู สั่งอาหาร ติดตามแคลอรี่ และระบบเติมเงิน
+A web-based restaurant management system built with PHP and MySQL, containerized with Docker. Supports multiple user roles (Admin, Manager, User) with features for menu management, food ordering, calorie tracking, and a wallet top-up system.
+
 ---
 
-สารบัญ
+Table of Contents
 
-1. [ภาพรวมระบบ](#1-ภาพรวมระบบ)
+1. [System Overview](#1-system-overview)
 2. [Tech Stack & Tools](#2-tech-stack--tools)
-3. [คู่มือการใช้งานระบบ](#3-คู่มือการใช้งานระบบ)
-4. [ขั้นตอนการติดตั้งและตั้งค่าระบบ](#4-ขั้นตอนการติดตั้งและตั้งค่าระบบ)
-5. [โครงสร้างโปรเจกต์](#5-โครงสร้างโปรเจกต์)
+3. [User Guide](#3-user-guide)
+4. [Installation & Setup](#4-installation--setup)
+5. [Project Structure](#5-project-structure)
 
 ---
 
-1. ภาพรวมระบบ
+## 1. System Overview
 
-**RestoSys** เป็นระบบจัดการร้านอาหารที่ออกแบบมาเพื่อรองรับการทำงาน 3 บทบาทหลัก ได้แก่ ผู้ดูแลระบบ (Admin), ผู้จัดการร้าน (Manager) และผู้ใช้งานทั่วไป (User) โดยแต่ละบทบาทจะมีหน้า Dashboard และสิทธิ์การเข้าถึงที่แตกต่างกัน
+**RestoSys** is a restaurant management system designed to support three main user roles: System Administrators (Admin), Restaurant Managers (Manager), and End Users (User). Each role has its own dashboard and access permissions.
 
-ฟีเจอร์หลัก
+### Key Features
 
-- **ระบบสมาชิกและการยืนยันตัวตน** — สมัครสมาชิก เข้าสู่ระบบ และจัดการโปรไฟล์ผู้ใช้
-- **ระบบ Role-based Access** — แบ่งสิทธิ์การใช้งานตามบทบาท (Admin / Manager / User)
-- **จัดการเมนูอาหาร** — เพิ่ม แก้ไข ลบรายการอาหาร พร้อมข้อมูลโภชนาการ
-- **ระบบสั่งอาหาร** — สั่งอาหาร ดูรายละเอียดออเดอร์ และประวัติการสั่งซื้อ
-- **ติดตามแคลอรี่และโภชนาการ** — แสดงข้อมูลโภชนาการของแต่ละเมนู และ reset แคลอรี่ได้
-- **ระบบเติมเงิน (Top-up)** — ผู้ใช้สามารถเติมเงินเข้าระบบเพื่อใช้สั่งอาหารได้
-- **ระบบบันทึกอาหาร (Scan)** — บันทึกอาหารที่ทานเองนอกร้าน เพื่อนับแคลอรี่
-- **Analytics Dashboard** — Admin สามารถดูสถิติและภาพรวมของระบบได้
-- **API Endpoint** — รองรับการเชื่อมต่อกับระบบอื่นผ่าน `api/api.php`
+- **Authentication System** — User registration, login, and profile management
+- **Role-based Access Control** — Separate permissions for Admin / Manager / User
+- **Menu Management** — Add, edit, and delete menu items with nutritional information
+- **Ordering System** — Place orders, view order details, and track order history
+- **Calorie & Nutrition Tracking** — Display nutritional info per menu item with daily calorie reset
+- **Wallet Top-up System** — Users can add funds to their wallet to pay for orders
+- **Manual Food Logging (Scan)** — Log food consumed outside the restaurant for calorie tracking
+- **Analytics Dashboard** — Admins can view system-wide statistics and metrics
+- **API Endpoint** — External system integration via `api/api.php`
 
-โครงสร้างผู้ใช้งาน
+### User Roles
 
-| บทบาท | สิทธิ์การใช้งาน |
+| Role | Permissions |
 | --- | --- |
-| **Admin** | จัดการผู้ใช้ทั้งหมด ดู Analytics ตั้งค่าระบบ จัดการร้านอาหาร |
-| **Manager** | จัดการเมนูในร้านที่รับผิดชอบ ดูออเดอร์ และจัดการรายการอาหาร |
-| **User** | ดูเมนู สั่งอาหาร เติมเงิน ดูประวัติ และจัดการโปรไฟล์ส่วนตัว |
+| **Admin** | Manage all users, view analytics, configure system, manage restaurants |
+| **Manager** | Manage menus for assigned restaurant, view orders, manage menu items |
+| **User** | Browse menus, place orders, top up wallet, view history, manage profile |
 
 ---
 
-2. Tech Stack & Tools
+## 2. Tech Stack & Tools
 
-Backend
-- **PHP 8.1** — ภาษาหลักที่ใช้พัฒนาฝั่ง server (รันบน Apache)
-- **MySQL 8.0** — ฐานข้อมูลเชิงสัมพันธ์
-- **mysqli** — extension สำหรับเชื่อมต่อ MySQL จาก PHP
+### Backend
+- **PHP 8.1** — Primary server-side language (running on Apache)
+- **MySQL 8.0** — Relational database
+- **mysqli** — PHP extension for MySQL connectivity
 
-Frontend
-- **HTML / CSS / JavaScript** — สำหรับ UI ของระบบ
-- **Google Fonts** — Sarabun, Prompt (รองรับภาษาไทย)
+### Frontend
+- **HTML / CSS / JavaScript** — UI implementation
+- **Google Fonts** — Sarabun, Prompt (Thai language support)
 
-Infrastructure & DevOps
-- **Docker** — Container สำหรับรันระบบ
-- **Docker Compose** — จัดการหลาย service พร้อมกัน
-- **phpMyAdmin** — เครื่องมือจัดการฐานข้อมูลผ่านเว็บ
+### Infrastructure & DevOps
+- **Docker** — Container runtime
+- **Docker Compose** — Multi-service orchestration
+- **phpMyAdmin** — Web-based database management
 
-Development Tools
-- **Visual Studio Code** — IDE สำหรับเขียนโค้ด
+### Development Tools
+- **Visual Studio Code** — IDE
 - **Git / GitHub** — Version control
 
-Docker Services
+### Docker Services
 
-ระบบประกอบด้วย 3 containers ที่ทำงานร่วมกัน:
+The system runs on three coordinated containers:
 
-| Service | Image | Port | หน้าที่ |
+| Service | Image | Port | Purpose |
 | --- | --- | --- | --- |
-| **web** | `restaurant_app-web` (PHP 8.1 + Apache) | `8081:80` | รันเว็บแอปพลิเคชัน |
-| **db** | `mysql:8.0` | `3306:3306` | ฐานข้อมูล MySQL |
-| **phpmyadmin** | `phpmyadmin:latest` | `8082:80` | จัดการฐานข้อมูลผ่าน UI |
+| **web** | `restaurant_app-web` (PHP 8.1 + Apache) | `8081:80` | Web application server |
+| **db** | `mysql:8.0` | `3306:3306` | MySQL database |
+| **phpmyadmin** | `phpmyadmin:latest` | `8082:80` | Database management UI |
 
 ---
 
-3. คู่มือการใช้งานระบบ
+## 3. User Guide
 
-การเข้าสู่ระบบ
+### Logging In
 
-1. เปิดเบราว์เซอร์ไปที่ `http://localhost:8081`
-2. หากยังไม่มีบัญชี ให้คลิก **สมัครสมาชิก** เพื่อสร้างบัญชี User
-3. ที่หน้า Login เลือกบทบาท (นักศึกษา / Manager / Admin) และกรอกอีเมล + รหัสผ่าน
-4. ระบบจะนำทางไปยัง Dashboard ตามบทบาทของผู้ใช้โดยอัตโนมัติ
+1. Open your browser and navigate to `http://localhost:8081`
+2. If you don't have an account, click **Register** to create a User account
+3. On the Login page, select your role (Student / Manager / Admin) and enter your email and password
+4. The system will automatically redirect you to the appropriate dashboard based on your role
 
-การใช้งานสำหรับ User (นักศึกษา)
+### For Users (Students)
 
-| ฟีเจอร์ | คำอธิบาย |
+| Feature | Description |
 | --- | --- |
-| **Dashboard** | ภาพรวม: เงินในกระเป๋า แคลอรี่วันนี้ vs เป้าหมาย ประวัติล่าสุด |
-| **บันทึกอาหาร (Scan)** | บันทึกอาหารที่ทานนอกร้าน พร้อมจำนวนแคลอรี่ |
-| **สั่งอาหาร** | เลือกร้าน → เลือกเมนู → ยืนยันออเดอร์ (หักจากกระเป๋าเงิน) |
-| **ประวัติการสั่ง** | ดูออเดอร์ย้อนหลัง พร้อมรายละเอียดและแคลอรี่รวม |
-| **เติมเงิน** | เพิ่มเงินเข้ากระเป๋าเงินเพื่อใช้สั่งอาหาร |
-| **ตั้งค่าโปรไฟล์** | แก้ไขข้อมูลส่วนตัว ปรับเป้าหมายแคลอรี่ และรีเซ็ตแคลอรี่วันนี้ |
+| **Dashboard** | Overview: wallet balance, today's calories vs. goal, recent activity |
+| **Food Logging (Scan)** | Log food consumed outside the restaurant with calorie counts |
+| **Order Food** | Choose restaurant → select menu items → confirm order (deducted from wallet) |
+| **Order History** | View past orders with details and total calories |
+| **Top-up** | Add funds to your wallet to pay for orders |
+| **Profile Settings** | Edit personal info, adjust calorie goals, reset today's calories |
 
-การใช้งานสำหรับ Manager
+### For Managers
 
-1. เข้าสู่ระบบด้วยบัญชี Manager
-2. เข้าสู่ Manager Dashboard เพื่อดูข้อมูลร้านที่รับผิดชอบ
-3. จัดการเมนูอาหาร: เพิ่ม / แก้ไข / ลบรายการได้
-4. ดูออเดอร์ที่เข้ามาและจัดการสถานะการสั่งซื้อ
+1. Log in with a Manager account
+2. Access the Manager Dashboard to view your assigned restaurant
+3. Manage menu items: add / edit / delete
+4. View incoming orders and manage order status
 
-การใช้งานสำหรับ Admin
+### For Admins
 
-1. เข้าสู่ระบบด้วยบัญชี Admin
-2. ใช้งาน Admin Dashboard เพื่อดูภาพรวมของระบบ (จำนวน Admin / Manager / Users / Menu / Orders / รายได้รวม)
-3. ดู Analytics เพื่อดูสถิติการใช้งาน
-4. จัดการข้อมูลทุกตาราง: Admin, Manager, ร้านอาหาร, เมนู, โภชนาการ, นักศึกษา, Orders, Order Detail
-5. CRUD ได้ครบทุกตาราง
+1. Log in with an Admin account
+2. Access the Admin Dashboard for system-wide overview (Admin / Manager / User counts, Menu items, Orders, total revenue)
+3. View Analytics for usage statistics
+4. Manage every table: Admin, Manager, Restaurants, Menu, Nutrition, Users, Orders, Order Details
+5. Full CRUD operations across all tables
 
-การจัดการฐานข้อมูล
+### Database Management
 
-เข้าใช้งาน phpMyAdmin ผ่าน `http://localhost:8082` เพื่อ:
-- ดูและแก้ไขข้อมูลในฐานข้อมูลโดยตรง
-- Import / Export ฐานข้อมูล
-- รัน SQL queries
+Access phpMyAdmin at `http://localhost:8082` to:
+- View and edit database records directly
+- Import / Export the database
+- Run SQL queries
 
-ข้อมูลเข้าใช้งาน phpMyAdmin:
+phpMyAdmin login credentials:
 - **Server:** `db`
 - **Username:** `admin`
 - **Password:** `password123`
 
 ---
 
-4. ขั้นตอนการติดตั้งและตั้งค่าระบบ
+## 4. Installation & Setup
 
-4.1 สิ่งที่ต้องเตรียม
+### 4.1 Prerequisites
 
-ก่อนเริ่มติดตั้ง ตรวจสอบว่ามีโปรแกรมเหล่านี้ติดตั้งในเครื่องแล้ว:
+Make sure the following are installed on your machine:
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) — สำหรับรัน Container
-- [Git](https://git-scm.com/) — สำหรับ clone โปรเจกต์
-- เบราว์เซอร์ (Chrome, Firefox, Edge เป็นต้น)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) — for running containers
+- [Git](https://git-scm.com/) — for cloning the project
+- A modern browser (Chrome, Firefox, Edge, etc.)
 
-4.2 Clone โปรเจกต์
+### 4.2 Clone the Project
 
-เปิด Terminal หรือ Command Prompt แล้วรันคำสั่ง:
+Open a terminal or command prompt and run:
 
 ```bash
 git clone https://github.com/<your-username>/restaurant-app.git
 cd restaurant-app
 ```
 
-4.3 เตรียมไฟล์ Database (สำคัญ)
+### 4.3 Prepare the Database File (Important)
 
-วางไฟล์ schema ของคุณที่ `database/init.sql`
+Place your schema file at `database/init.sql`
 
-ระบบจะ **import อัตโนมัติ** เมื่อรัน Docker ครั้งแรก โดย MySQL จะอ่านไฟล์ `.sql` ทั้งหมดในโฟลเดอร์ `database/` แล้วนำเข้าฐานข้อมูล
+The system will **import it automatically** the first time you start Docker. MySQL reads all `.sql` files in the `database/` folder and imports them into the database on initial startup.
 
-> **หมายเหตุ:** Auto-import ทำงานเฉพาะตอนสร้าง volume ใหม่ ถ้าเคยรันมาก่อนแล้ว ดูวิธี reset ใน [Troubleshooting](#48-การแก้ไขปัญหาเบื้องต้น-troubleshooting)
+> **Note:** Auto-import only runs when the volume is created for the first time. If you've run it before, see the [Troubleshooting](#48-troubleshooting) section to reset.
 
-4.4 ตรวจสอบไฟล์ตั้งค่า (ถ้าจำเป็น)
+### 4.4 Verify Configuration (If Needed)
 
-ค่า default ใช้ได้เลยถ้าไม่ได้แก้ `docker-compose.yml` แต่ถ้าต้องการกำหนดค่าผ่าน `.env`:
+Default values in `docker-compose.yml` work out of the box. If you want to override them via `.env`:
 
 ```bash
 cp .env.example .env
 ```
 
-แล้วแก้ไข `.env` ตามต้องการ
+Then edit `.env` as needed.
 
-4.5 เริ่มต้น Docker Containers
+### 4.5 Start Docker Containers
 
-ใน Terminal ภายในโฟลเดอร์โปรเจกต์ รันคำสั่ง:
+From the project folder, run:
 
 ```bash
 docker-compose up -d
 ```
 
-คำสั่งนี้จะ:
-- ดาวน์โหลด images ที่จำเป็น (ครั้งแรกอาจใช้เวลาสักครู่)
-- สร้างและเริ่มต้น 3 containers (web, db, phpmyadmin)
-- รันในโหมด detached (`-d`) คือทำงานอยู่เบื้องหลัง
-- Import schema จาก `database/init.sql` โดยอัตโนมัติ
+This command will:
+- Pull required images (may take a moment on first run)
+- Build and start three containers (web, db, phpmyadmin)
+- Run in detached mode (`-d`) — services run in the background
+- Auto-import the schema from `database/init.sql`
 
-ตรวจสอบสถานะ container ด้วยคำสั่ง:
+Check container status:
 
 ```bash
 docker-compose ps
 ```
 
-หรือดูผ่าน Docker Desktop ใต้เมนู **Containers**
+Or view it in Docker Desktop under the **Containers** tab.
 
-4.6 รอให้ MySQL พร้อมใช้งาน
+### 4.6 Wait for MySQL to Be Ready
 
-ครั้งแรกที่รัน MySQL จะใช้เวลาประมาณ 20-30 วินาทีในการ initialize ฐานข้อมูล
+On first startup, MySQL takes about 20-30 seconds to initialize the database.
 
-ตรวจสอบ log ได้ด้วย:
+Watch the logs with:
 
 ```bash
 docker-compose logs -f db
 ```
 
-เมื่อเห็นข้อความ `ready for connections` แล้ว แสดงว่า MySQL พร้อมใช้งาน
+When you see the `ready for connections` message, MySQL is ready to use.
 
-4.7 เข้าใช้งานระบบ
+### 4.7 Access the System
 
-หลังจากตั้งค่าเสร็จเรียบร้อย เปิดเบราว์เซอร์ไปที่:
+Once everything is running, open your browser and navigate to:
 
-| บริการ | URL |
+| Service | URL |
 | --- | --- |
 | Web Application | `http://localhost:8081` |
 | phpMyAdmin | `http://localhost:8082` |
 
-### 4.8 การแก้ไขปัญหาเบื้องต้น (Troubleshooting)
+### 4.8 Troubleshooting
 
-#### ปัญหา: Port ถูกใช้งานอยู่ (Port already in use)
+#### Issue: Port already in use
 
-ตรวจสอบว่ามีโปรแกรมอื่นใช้ port `8081`, `8082`, หรือ `3306` อยู่หรือไม่ หากมี ให้ปิดโปรแกรมนั้น หรือเปลี่ยน port ใน `docker-compose.yml`:
+Check whether another program is using port `8081`, `8082`, or `3306`. Either close that program or change the port in `docker-compose.yml`:
 
 ```yaml
 ports:
-  - "9081:80"   # เปลี่ยนจาก 8081 เป็น 9081
+  - "9081:80"   # change from 8081 to 9081
 ```
 
-ปัญหา: เชื่อมต่อฐานข้อมูลไม่ได้
+#### Issue: Cannot connect to database
 
-- ตรวจสอบว่า container `db` ทำงานปกติด้วย `docker-compose ps`
-- ตรวจสอบว่า `$host` ใน `config/db.php` เป็น `"db"` ไม่ใช่ `localhost`
-- รอประมาณ 30 วินาที หลังจากรัน `docker-compose up` เพื่อให้ MySQL พร้อมใช้งาน
+- Verify the `db` container is running: `docker-compose ps`
+- Verify that `$host` in `config/db.php` is `"db"` and not `localhost`
+- Wait ~30 seconds after running `docker-compose up` to allow MySQL to initialize
 
-ปัญหา: ฐานข้อมูลไม่ถูก import อัตโนมัติ
+#### Issue: Database not auto-imported
 
-ปกติ MySQL จะ import ไฟล์ `.sql` ในโฟลเดอร์ `database/` แค่ครั้งแรกเท่านั้น ถ้าเคยรันมาก่อน ต้อง reset volume:
+MySQL only imports `.sql` files from `database/` on the **first** volume creation. If you've run it before, you must reset the volume:
 
 ```bash
-docker-compose down -v       # ⚠️ ลบ volume (ข้อมูลจะหาย)
+docker-compose down -v       # ⚠️ deletes the volume (data will be lost)
 docker-compose up -d
 ```
 
-ปัญหา: ไฟล์ที่อัปโหลดหายหลังจาก restart
+#### Issue: Uploaded files disappear after restart
 
-ตรวจสอบว่าได้ mount โฟลเดอร์ `uploads/` เป็น volume ใน `docker-compose.yml` แล้ว (ค่า default มีให้แล้ว)
+Verify that the `uploads/` folder is mounted as a volume in `docker-compose.yml` (this is configured by default).
 
-4.9 คำสั่ง Docker ที่ใช้บ่อย
+### 4.9 Common Docker Commands
 
 ```bash
-# หยุดการทำงานของ containers (ข้อมูลคงอยู่)
+# Stop containers (data is preserved)
 docker-compose down
 
-# ดู log ของระบบทั้งหมด
+# Tail all logs
 docker-compose logs -f
 
-# ดู log เฉพาะ service เช่น web
+# Tail logs for a specific service
 docker-compose logs -f web
 
 # Restart containers
 docker-compose restart
 
-# ลบ container พร้อม volume (⚠️ ข้อมูลจะหาย)
+# Remove containers and volumes (⚠️ data will be lost)
 docker-compose down -v
 
-# Build image ใหม่หลังแก้ไข Dockerfile
+# Rebuild image after changing Dockerfile
 docker-compose up -d --build
 
-# เข้า bash ใน container web
+# Open a bash shell in the web container
 docker exec -it restaurant_app_web bash
 
-# เข้า MySQL CLI
+# Open the MySQL CLI
 docker exec -it restaurant_app_db mysql -u admin -ppassword123 my_project
 ```
 
 ---
 
-5. โครงสร้างโปรเจกต์
+## 5. Project Structure
 
 ```
 restaurant_app/
 ├── config/
-│   ├── db.php                  # การเชื่อมต่อฐานข้อมูล
-│   └── paths.php               # ค่าคงที่สำหรับ path และ URL
+│   ├── db.php                  # Database connection
+│   └── paths.php               # Path & URL constants
 ├── includes/
-│   ├── auth.php                # ระบบยืนยันตัวตน (requireLogin)
-│   ├── header.php              # Sidebar สำหรับ Admin/Manager
-│   ├── footer.php              # JS + Modal ที่ใช้ร่วมกัน
-│   └── user_header.php         # Sidebar สำหรับ User (มี wallet bar)
+│   ├── auth.php                # Authentication helpers (requireLogin)
+│   ├── header.php              # Sidebar for Admin/Manager
+│   ├── footer.php              # Shared JS + modal markup
+│   └── user_header.php         # Sidebar for Users (with wallet bar)
 ├── pages/
 │   ├── auth/
-│   │   ├── login.php           # หน้า Login
-│   │   ├── logout.php          # ออกจากระบบ
-│   │   └── register.php        # สมัครสมาชิก (User เท่านั้น)
+│   │   ├── login.php           # Login page
+│   │   ├── logout.php          # Logout handler
+│   │   └── register.php        # User registration
 │   ├── admin/
-│   │   ├── admin.php           # CRUD ตาราง Admin
+│   │   ├── admin.php           # CRUD: Admin table
 │   │   ├── admin_analytics.php # Analytics dashboard
-│   │   └── users.php           # CRUD ตาราง Users
+│   │   └── users.php           # CRUD: Users table
 │   ├── manager/
-│   │   ├── manager.php         # CRUD ตาราง Manager
-│   │   └── manager_dashboard.php # Dashboard ของ Manager
+│   │   ├── manager.php         # CRUD: Manager table
+│   │   └── manager_dashboard.php # Manager dashboard
 │   ├── restaurant/
-│   │   ├── restaurant.php      # CRUD ตาราง Restaurant
-│   │   ├── menu.php            # CRUD ตาราง Menu
-│   │   ├── nutrition.php       # CRUD ตาราง Nutrition
-│   │   ├── orders.php          # CRUD ตาราง Orders
-│   │   └── orderdetail.php     # CRUD ตาราง OrderDetail
+│   │   ├── restaurant.php      # CRUD: Restaurant table
+│   │   ├── menu.php            # CRUD: Menu table
+│   │   ├── nutrition.php       # CRUD: Nutrition table
+│   │   ├── orders.php          # CRUD: Orders table
+│   │   └── orderdetail.php     # CRUD: OrderDetail table
 │   └── user/
-│       ├── user_dashboard.php  # Dashboard ของ User
-│       ├── user_profile.php    # ตั้งค่าโปรไฟล์
-│       ├── user_history.php    # ประวัติการสั่ง
-│       ├── user_shop.php       # หน้าสั่งอาหาร
-│       ├── user_topup.php      # เติมเงิน
-│       ├── user_scan.php       # บันทึกอาหารด้วยตนเอง
-│       └── user_reset_cal.php  # รีเซ็ตแคลอรี่วันนี้
+│       ├── user_dashboard.php  # User dashboard
+│       ├── user_profile.php    # Profile settings
+│       ├── user_history.php    # Order history
+│       ├── user_shop.php       # Order food
+│       ├── user_topup.php      # Wallet top-up
+│       ├── user_scan.php       # Manual food logging
+│       └── user_reset_cal.php  # Reset today's calories
 ├── api/
 │   └── api.php                 # API endpoint
 ├── html/                       # Static assets (CSS, JS, images)
-├── uploads/                    # ไฟล์ที่ user อัปโหลด (gitignored)
+├── uploads/                    # User-uploaded files (gitignored)
 ├── docker/
 │   └── Dockerfile              # PHP + Apache image
 ├── database/
-│   └── init.sql                # Database schema (auto-import)
+│   └── init.sql                # Database schema (auto-imported)
 ├── docker-compose.yml          # Docker services configuration
-├── index.php                   # Admin dashboard (entry หลังลอกอินเป็น admin)
-├── .env.example                # ตัวอย่างไฟล์ environment
+├── index.php                   # Admin dashboard (entry after admin login)
+├── .env.example                # Environment file template
 ├── .gitignore
 └── README.md
 ```
 
-หมายเหตุสำหรับนักพัฒนา
+### Developer Notes
 
-- **Path constants** ทั้งหมดถูกกำหนดใน `config/paths.php` — ทุกหน้า require ไฟล์นี้ก่อน
-- **Authentication** ใช้ `requireLogin($role)` จาก `includes/auth.php` ที่ต้นไฟล์ของหน้าที่ต้อง login
-- **Sessions** ทุก role ใช้ `$_SESSION['user_id']`, `$_SESSION['user_name']`, `$_SESSION['role']`
-- **CSS theme** ใช้ดาร์กโทนพร้อม CSS variables (เช่น `--accent: #f97316`)
+- **Path constants** are all defined in `config/paths.php` — every page requires this file first
+- **Authentication** uses `requireLogin($role)` from `includes/auth.php` at the top of any protected page
+- **Sessions** across all roles use `$_SESSION['user_id']`, `$_SESSION['user_name']`, `$_SESSION['role']`
+- **CSS theme** uses a dark palette with CSS variables (e.g., `--accent: #f97316`)
 
 ---
 
 License
 
-โปรเจกต์นี้พัฒนาเพื่อการศึกษา
+This project was developed for educational purposes.
 
 Contact
 
-หากพบปัญหาหรือมีข้อเสนอแนะ สามารถเปิด Issue ใน GitHub Repository ได้
+For issues or suggestions, please open an Issue in the GitHub Repository.
