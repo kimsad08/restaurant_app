@@ -1,4 +1,4 @@
-RestoSys — Restaurant App
+RestoSys — Restaurant App 
 
 A web-based restaurant management system built with PHP and MySQL, containerized with Docker. Supports multiple user roles (Admin, Manager, User) with features for menu management, food ordering, calorie tracking, and a wallet top-up system.
 
